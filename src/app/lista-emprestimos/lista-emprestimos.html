@@ -1,0 +1,45 @@
+<div class="container">
+  <h1>Lista de Empréstimos</h1>
+
+  <div class="contadores">
+    <span>Total: {{ total }}</span>
+    <span>Em aberto: {{ emAberto }}</span>
+    <span>Devolvidos: {{ devolvidos }}</span>
+  </div>
+
+  @if (emprestimos.length === 0) {
+    <p class="vazio">Nenhum empréstimo cadastrado</p>
+  } @else {
+    @for (emprestimo of emprestimos; track emprestimo.id) {
+      <div class="emprestimo">
+        <h3>{{ emprestimo.tituloLivro }}</h3>
+
+        <p>Nome da pessoa: {{ emprestimo.nomePessoa }}</p>
+        <p>Data prevista de devolução: {{ emprestimo.dataPrevistaDevolucao }}</p>
+
+        @if (emprestimo.devolvido) {
+          <span class="status devolvido">Devolvido</span>
+        } @else {
+          <span class="status aberto">Em aberto</span>
+        }
+
+        <div class="botoes">
+          <button
+            type="button"
+            (click)="remover(emprestimo.id)">
+            Remover
+          </button>
+
+          <button
+            type="button"
+            [class.riscado]="emprestimo.devolvido"
+            (click)="registrarDevolucao(emprestimo.id)">
+            Registrar devolução
+          </button>
+        </div>
+      </div>
+    }
+  }
+
+  <a routerLink="/cadastro">Cadastrar novo empréstimo</a>
+</div>
